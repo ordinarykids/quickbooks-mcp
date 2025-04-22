@@ -1,11 +1,11 @@
 # MCP Server for QuickBooks Online V3 API
 
-A **Mock–Capture–Proxy (MCP) server** that sits in front of Intuit’s QuickBooks Online V3 Accounting API. It can:
+A **Mock–Capture–Proxy (MCP) server** that sits in front of Intuit's QuickBooks Online V3 Accounting API. It can:
 
 | Mode        | Purpose                                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------------------- |
 | **mock**    | Serve example payloads generated from the OpenAPI spec—design and test without calling Intuit.       |
-| **proxy**   | Forward validated traffic to Intuit’s live or sandbox endpoints (adding the OAuth 2.0 bearer token). |
+| **proxy**   | Forward validated traffic to Intuit's live or sandbox endpoints (adding the OAuth 2.0 bearer token). |
 | **capture** | Proxy traffic **and** persist every request/response pair to an ND‑JSON log for replay or analytics. |
 
 ---
@@ -23,7 +23,7 @@ A **Mock–Capture–Proxy (MCP) server** that sits in front of Intuit’s Quick
 ## 🛠️ Prerequisites
 
 - Node.js ≥ 18
-- A local copy of **QuickBooksOnlineV3.json** (Intuit’s OpenAPI definition).
+- A local copy of **QuickBooksOnlineV3.json** (Intuit's OpenAPI definition).
 - (Proxy/Capture only) An **OAuth 2.0 access token** for QuickBooks Online.
 
 ---
@@ -55,7 +55,7 @@ MCP_MODE=mock                # mock | proxy | capture
 SPEC_PATH=./QuickBooksOnlineV3.json
 PORT=4000
 QBO_BASE=https://quickbooks.api.intuit.com
-QBO_TOKEN=eyJhbGc...          # required in proxy/capture modes
+QBO_TOKEN=eyJhbG...          # required in proxy/capture modes
 ```
 
 ### 4  Run
@@ -71,7 +71,7 @@ MCP_MODE=proxy QBO_TOKEN=<token> npx ts-node mcp-server.ts
 MCP_MODE=capture QBO_TOKEN=<token> npx ts-node mcp-server.ts
 ```
 
-You’ll see:
+You'll see:
 
 ```
 🌀 MCP server listening on http://localhost:4000  (mode=mock)
@@ -86,7 +86,7 @@ You’ll see:
 | `GET /health` | Simple JSON health‑check.                      |
 | `ANY /api/*`  | All QuickBooks API paths (mock/proxy/capture). |
 
-_Example_: `GET http://localhost:4000/api/v3/company/1234567890/customer`
+_Example_: `GET http://localhost:4000/api/v3/company/YOUR_REAL_COMPANY_ID/customer`
 
 ---
 
@@ -117,7 +117,7 @@ Great for regression tests, analytics, or seeding fixtures.
 ## 🧩 Extending & Customising
 
 1. **Schema‑driven fakes** – swap `c.mock()` for [Stoplight Prism](https://github.com/stoplightio/prism) if you need dynamic values.
-2. **Rate limiting** – bolt on `express-rate-limit` or front with Nginx to stay under Intuit’s 500 RPM cap.
+2. **Rate limiting** – bolt on `express-rate-limit` or front with Nginx to stay under Intuit's 500 RPM cap.
 3. **OAuth auto‑refresh** – catch 401s and swap your `refresh_token` for a new access token automatically.
 4. **Typed SDK** – generate a client with `openapi-generator-cli` and import it to enforce compile‑time safety in custom handlers.
 
@@ -127,7 +127,7 @@ Great for regression tests, analytics, or seeding fixtures.
 
 | Symptom                 | Likely Cause               | Fix                                                       |
 | ----------------------- | -------------------------- | --------------------------------------------------------- |
-| `400 validationFail`    | Request doesn’t match spec | Double‑check path params, query, body schema              |
+| `400 validationFail`    | Request doesn't match spec | Double‑check path params, query, body schema              |
 | `429 Throttle exceeded` | QuickBooks limit hit       | Slow down / add exponential back‑off                      |
 | `401 Unauthorized`      | Expired access token       | Refresh OAuth token and restart or implement auto‑refresh |
 

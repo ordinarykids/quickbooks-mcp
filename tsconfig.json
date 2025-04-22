@@ -1,0 +1,25 @@
+{
+  "ts-node": {
+    // Remove esm flag as we're using CommonJS
+  },
+  "compilerOptions": {
+    // --- Basic Options ---
+    "target": "ES2022", // Target modern ECMAScript features
+    "module": "CommonJS", // Changed from NodeNext to CommonJS
+    "moduleResolution": "Node", // Changed from NodeNext to Node
+    "esModuleInterop": true, // Enables compatibility with CommonJS modules
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file.
+
+    // --- Strict Checks ---
+    "strict": true, // Enable all strict type-checking options
+    "skipLibCheck": true // Skip type checking of declaration files
+
+    // --- Output ---
+    // "outDir": "./dist", // Optional: specify output directory for compiled JS
+    // "rootDir": "./src", // Optional: specify root directory of source files
+  }
+  // Optional: Explicitly include your source files
+  // "include": ["src/**/*.ts"],
+  // Optional: Exclude files like node_modules
+  // "exclude": ["node_modules"]
+}
